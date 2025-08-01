@@ -3,10 +3,11 @@
   <title>SOP Test Page</title>
   <script>
     try {
-      Object.defineProperty(document, 'cookie', {
+      Object.defineProperty(document, 'domain', {
         value: 'ads.tiktok.com',
         writable: true
       });
+      alert(document.cookie);
   </script>
 </head>
 <body>
