@@ -1,3 +1,3 @@
 <?php
-header("Location: https://ssrf-bait.byted.org/blind-ssrf/9998e67b5c43df9f9660bfc28fb74883");
+header("Location: https://webhook.site/6dd04c90-d309-4499-862a-0fd6d71a7ffa");
 ?>
