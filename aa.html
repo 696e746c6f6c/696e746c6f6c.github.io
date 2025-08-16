@@ -1,14 +1,20 @@
+<!DOCTYPE html>
 <html>
-  <body></body>
-  <head></head>
-  ><script>
-fetch("https://forum.playcanvas.com/u/auxi.json?seen_popups[]=1&seen_popups[]=2&seen_popups[]=5&seen_popups[]=3")
-  .then(r => r.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(err => console.error("Fetch failed:", err));
-    alert(data);
-    alert(err);
-</script>
-</html
+  <head>
+    <title>Fetch via Proxy</title>
+  </head>
+  <body>
+    <script>
+      fetch("https://cors-anywhere.herokuapp.com/https://forum.playcanvas.com/u/auxi.json?seen_popups[]=1&seen_popups[]=2&seen_popups[]=5&seen_popups[]=3")
+        .then(r => r.json())
+        .then(data => {
+          console.log("Data:", data);
+          alert("Got JSON! Check console.");
+        })
+        .catch(err => {
+          console.error("Fetch failed:", err);
+          alert("Fetch failed: " + err);
+        });
+    </script>
+  </body>
+</html>
