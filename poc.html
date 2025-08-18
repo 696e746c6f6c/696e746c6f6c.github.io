@@ -6,7 +6,7 @@
     <button id="poc">req</button>
     <script>
       document.getElementById('poc').addEventListener('click', function() {
-        const url = "https://ads.tiktok.com/CreativeOne/Client/ClientGetAccountList";
+        const url = "https://ads.tiktok.com/CreativeOne/OrderQuery/ClientPublishCampaignList";
         fetch(url, { credentials: "include" }) 
           .then(r => r.json())
           .then(data => {
