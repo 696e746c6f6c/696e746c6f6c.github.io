@@ -1,11 +1,13 @@
 <html>
   <body>
-    <iframe id="myiframe" src="http://ptl-501ac5c9-f8944e1a.libcurl.so/"></iframe>
+    <iframe id="myiframe" onload="abc()" src="http://ptl-501ac5c9-f8944e1a.libcurl.so/"></iframe>
     <script>
-      const iframe = document.getElementById("myiframe");
-        iframe.onload() => {
+      function abc(){
+      setTimeout(function(){
+        const iframe = document.getElementById("myiframe");
         iframe.contentWindow[0].postMessage('user=test&id=0','*');
-        };
+      },3000);
+      };
     </script>
   </body>
 </html>
