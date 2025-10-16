@@ -6,6 +6,7 @@
     <button id="poc">req</button>
     <script>
       document.getElementById('poc').addEventListener('click', function() {
+        window.open("https://smartbiz.amazon.in/settings/gst-seller", "_blank");
         const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
         fetch(url, { credentials: "include" }) 
           .then(r => r.json())
