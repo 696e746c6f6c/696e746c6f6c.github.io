@@ -1,12 +1,5 @@
 <html>
-<body></body>
-<head></head>
-<script>
-Object.defineProperty(document, 'domain', {
-  value: 'advertising.amazon.com',
-  writable: true
-});
-
-alert(document.domain)
-</script>
+<body>
+  <iframe srcdoc='<script>alert(1)</script>'</iframe>
+</body>
 </html>
