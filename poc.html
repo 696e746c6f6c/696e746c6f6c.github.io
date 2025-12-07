@@ -1,7 +1,12 @@
 <html>
-  <body>
-    <script>
-      alert(document.domain)
-    </script>
-  </body>
+<body></body>
+<head></head>
+<script>
+Object.defineProperty(document, 'domain', {
+  value: 'ads.tiktok.com',
+  writable: true
+});
+
+alert(document.domain)
+</script>
 </html>
